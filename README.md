@@ -36,16 +36,9 @@ Ce dont tu as besoin :
 - Node.js 18+ 
 - Java 17+
 - Maven 3.8+
-- SQL Server (LocalDB suffit pour tester)
+- SQL Server 
 
-Le plus simple :
-```bash
-# Tout installer d'un coup
-install-deps.bat
 
-# Démarrer l'app
-start-dev.bat
-```
 
 Ça va ouvrir deux terminaux : un pour le backend Spring Boot, un pour Angular. Le frontend sera accessible sur http://localhost:4200.
 
@@ -64,15 +57,9 @@ npm install
 ng serve
 ```
 
-Base de données
 
-Pour SQL Server LocalDB (le plus simple) :
-```bash
-sqllocaldb create MSSQLLocalDB
-sqllocaldb start MSSQLLocalDB
-```
 
-La base `chessdb` se crée automatiquement au démarrage. Si tu veux des données de test, il y a des scripts SQL dans `backend/src/main/resources/sql/`.
+La base `chessdb` se crée automatiquement au démarrage
 
 Comment ça marche
 
@@ -131,7 +118,7 @@ Problèmes connus
 
 Tests
 
-Pour tester rapidement, tu peux créer deux comptes et ouvrir deux onglets. Les comptes de test (mot de passe "secret") : alice, bob, charlie, diana.
+Pour tester rapidement, tu peux créer deux comptes et ouvrir deux onglets.
 
 ---
 
