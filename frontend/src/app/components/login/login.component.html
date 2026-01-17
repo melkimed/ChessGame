@@ -1,0 +1,67 @@
+<div class="container">
+  <div class="login-container">
+    <div class="card">
+      <h2 class="text-center mb-3">Jeu d'Échecs Multijoueurs</h2>
+      
+      <div class="tab-buttons">
+        <button 
+          class="btn" 
+          [class.btn-primary]="isLoginMode" 
+          [class.btn-secondary]="!isLoginMode"
+          (click)="isLoginMode = true">
+          Connexion
+        </button>
+        <button 
+          class="btn" 
+          [class.btn-primary]="!isLoginMode" 
+          [class.btn-secondary]="isLoginMode"
+          (click)="isLoginMode = false">
+          Inscription
+        </button>
+      </div>
+
+      <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+        <div class="form-group">
+          <label for="username">Nom d'utilisateur:</label>
+          <input 
+            type="text" 
+            id="username"
+            name="username"
+            class="form-control" 
+            [(ngModel)]="username" 
+            required
+            #usernameInput="ngModel">
+          <div *ngIf="usernameInput.invalid && usernameInput.touched" class="error">
+            Le nom d'utilisateur est requis
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Mot de passe:</label>
+          <input 
+            type="password" 
+            id="password"
+            name="password"
+            class="form-control" 
+            [(ngModel)]="password" 
+            required
+            #passwordInput="ngModel">
+          <div *ngIf="passwordInput.invalid && passwordInput.touched" class="error">
+            Le mot de passe est requis
+          </div>
+        </div>
+
+        <button 
+          type="submit" 
+          class="btn btn-primary btn-block"
+          [disabled]="loginForm.invalid || loading">
+          {{ loading ? 'Chargement...' : (isLoginMode ? 'Se connecter' : 'S\'inscrire') }}
+        </button>
+      </form>
+
+      <div *ngIf="message" class="alert" [class.alert-success]="!error" [class.alert-danger]="error">
+        {{ message }}
+      </div>
+    </div>
+  </div>
+</div>

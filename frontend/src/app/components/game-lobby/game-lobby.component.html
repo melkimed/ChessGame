@@ -1,0 +1,78 @@
+<div class="container">
+  <div class="lobby-header">
+    <h2>Lobby - Bienvenue {{ currentUser?.username }}!</h2>
+    <div class="header-actions">
+      <button 
+        class="btn btn-primary btn-sm" 
+        (click)="toggleInvitations()"
+        [class.btn-success]="pendingInvites.length > 0">
+        📨 Invitations 
+        <span *ngIf="pendingInvites.length > 0" class="badge">{{ pendingInvites.length }}</span>
+      </button>
+      <button class="btn btn-danger" (click)="logout()">Déconnexion</button>
+    </div>
+  </div>
+
+  <div class="lobby-content">
+    <div class="card">
+      <div class="card-header">
+        <h3>Joueurs en ligne</h3>
+      </div>
+      <div *ngIf="onlineUsers.length === 0" class="no-users">
+        Aucun autre joueur connecté
+      </div>
+      <div class="users-list">
+        <div 
+          *ngFor="let user of onlineUsers" 
+          class="user-item"
+          [class.current-user]="user.username === currentUser?.username">
+          <span class="username">{{ user.username }}</span>
+          <button 
+            *ngIf="user.username !== currentUser?.username"
+            class="btn btn-primary btn-sm"
+            (click)="invitePlayer(user.username)"
+            [disabled]="!webSocketService.isConnected()">
+            Inviter
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" *ngIf="activeGame">
+      <h3>Partie en cours</h3>
+      <p>Partie contre {{ getOpponentName() }}</p>
+      <button class="btn btn-success" (click)="resumeGame()">
+        Reprendre la partie
+      </button>
+    </div>
+
+    <div class="card" *ngIf="pendingInvites.length > 0">
+      <h3>Invitations reçues ({{ pendingInvites.length }})</h3>
+      <div *ngFor="let invite of pendingInvites; let i = index" class="invite-item">
+        <span>{{ invite.from }} vous invite à jouer</span>
+        <div class="invite-actions">
+          <button class="btn btn-success btn-sm" (click)="acceptInvite(invite)">
+            Accepter
+          </button>
+          <button class="btn btn-danger btn-sm" (click)="declineInvite(invite)">
+            Refuser
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notification flottante pour les nouvelles invitations -->
+    <div *ngIf="!showInvitations && pendingInvites.length > 0" class="floating-notification">
+      <div class="notification-content">
+        <span>{{ pendingInvites.length }} nouvelle(s) invitation(s)</span>
+        <button class="btn btn-sm btn-primary" (click)="toggleInvitations()">
+          Voir
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="message" class="alert" [class.alert-success]="!error" [class.alert-danger]="error">
+    {{ message }}
+  </div>
+</div>

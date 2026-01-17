@@ -1,0 +1,48 @@
+<div class="container">
+  <div class="game-header">
+    <h2>Partie d'Échecs</h2>
+    <div class="game-info">
+      <div class="players">
+        <div class="player" [class.active]="game?.currentTurn === 'WHITE'">
+          ♔ {{ game?.whitePlayer?.username }} (Blanc)
+        </div>
+        <div class="player" [class.active]="game?.currentTurn === 'BLACK'">
+          ♚ {{ game?.blackPlayer?.username }} (Noir)
+        </div>
+      </div>
+      <button class="btn btn-secondary" (click)="goToLobby()">Retour au Lobby</button>
+    </div>
+  </div>
+
+  <div class="game-content">
+    <div class="chess-board-container">
+      <div class="chess-board">
+        <div *ngFor="let square of board; let i = index" class="chess-square" [class.white]="isWhiteSquare(i)"
+          [class.black]="!isWhiteSquare(i)" [class.selected]="square.isSelected" [class.valid-move]="square.isValidMove"
+          (click)="onSquareClick(square)">
+          <span *ngIf="square.piece" class="piece" [class.white-piece]="square.piece.color === 'WHITE'" [class.black-piece]="square.piece.color === 'BLACK'">{{ square.piece.symbol }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="game-sidebar">
+      <div class="card">
+        <h3>Historique des coups</h3>
+        <div class="moves-list">
+          <div *ngFor="let move of moves; let i = index" class="move-item">
+            {{ i + 1 }}. {{ move.moveNotation }}
+          </div>
+        </div>
+      </div>
+
+      <div class="card" *ngIf="gameStatus">
+        <h3>Statut</h3>
+        <p>{{ gameStatus }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="message" class="alert" [class.alert-success]="!error" [class.alert-danger]="error">
+    {{ message }}
+  </div>
+</div>
